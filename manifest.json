@@ -6,7 +6,7 @@
     "module": {
         "description": "CT PerformanceQuickIQ",
         "executable": "QCCT_wadwrapper.py",
-        "name": "CT_PerformanceQuickIQ",
+        "name": "CT_QuickIQ",
         "code": "python",
         "dependencies": [
             "pillow",
