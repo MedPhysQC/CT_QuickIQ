@@ -1,0 +1,38 @@
+{
+    "actions": {
+        "acqdatetime": {
+            "filters": {}, 
+            "params": {}
+        }, 
+        "header_series": {
+            "filters": {}, 
+            "params": {}
+        }, 
+        "qc_series": {
+            "filters": {}, 
+            "params": {
+                "bodyHU_aculon": 0.0, 
+                "bodyHU_air": -1000.0, 
+                "bodyHU_teflon": 923.0, 
+                "headHU_air": -1000.0, 
+                "headHU_pvc": 122.0, 
+                "headHU_water": -0.5, 
+                "headdiammm_in": 190.0, 
+                "headdiammm_out": 194.0, 
+                "scannername": "IQon 64", 
+                "use_bodyairdistmm": 130.0, 
+                "use_headairdistmm": 93.0
+            }
+        }
+    }, 
+    "comments": {
+        "author": "Arnold Schilham, UMCU", 
+        "creator": "generate_config_json.py version 20180219", 
+        "description": "CT/PerformanceQuickIQ for Philips IQON 64", 
+        "params": {
+            "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)", 
+            "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
+        }, 
+        "version": "20160622"
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "actions": {
+        "acqdatetime": {
+            "filters": {}, 
+            "params": {}
+        }, 
+        "header_series": {
+            "filters": {}, 
+            "params": {}
+        }, 
+        "qc_series": {
+            "filters": {}, 
+            "params": {
+                "bodyHU_aculon": 98.0, 
+                "bodyHU_teflon": 878.0, 
+                "bodyHU_water": 1.2, 
+                "headHU_air": -1000.0, 
+                "headHU_pvc": 1185.0, 
+                "headHU_water": 1.2, 
+                "headdiammm_in": 188.0, 
+                "headdiammm_out": 192.0, 
+                "scannername": "Brilliance 64", 
+                "use_headairdistmm": 93.0
+            }
+        }
+    }, 
+    "comments": {
+        "author": "Arnold Schilham, UMCU", 
+        "creator": "generate_config_json.py version 20180219", 
+        "description": "CT/PerformanceQuickIQ for Philips Brilliance 64", 
+        "params": {
+            "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
+        }, 
+        "version": "20170622"
+    }
+}

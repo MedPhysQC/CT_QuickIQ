@@ -1,0 +1,114 @@
+{
+    "comments": {
+        "author": "Arnold Schilham, UMCU", 
+        "creator": "generate_config_json.py version 20180219", 
+        "description": "CT/PerformanceQuickIQ for Philips IQON 64"
+    }, 
+    "results": {
+        "AcquisitionDateTime": {
+            "constraint_period": 14, 
+            "description": "date and time of acquisition", 
+            "display_level": 2, 
+            "display_name": "DateTime", 
+            "units": ""
+        }, 
+        "MeanAir": {
+            "constraint_minlowhighmax": [
+                -1004, 
+                -1003, 
+                -997, 
+                -996
+            ], 
+            "description": "mean HU value in ROI outside phantom", 
+            "display_level": 2, 
+            "display_name": "HU Air HEAD", 
+            "units": "HU"
+        }, 
+        "MeanCenter": {
+            "constraint_minlowhighmax": [
+                -4, 
+                -3, 
+                3, 
+                4
+            ], 
+            "description": "mean HU value in ROI in center of phantom", 
+            "display_level": 2, 
+            "display_name": "HU Water HEAD", 
+            "units": "HU"
+        }, 
+        "MeanHigh": {
+            "description": "mean value for high HU object", 
+            "display_level": 1, 
+            "display_name": "HU High HEAD", 
+            "units": "HU"
+        }, 
+        "Patient Position": {
+            "constraint_equals": "HFS", 
+            "display_level": 1
+        }, 
+        "Protocol Name": {
+            "display_level": 1, 
+            "display_name": "Protocol HEAD"
+        }, 
+        "linearity": {
+            "constraint_minlowhighmax": [
+                0.9, 
+                0.925, 
+                1.075, 
+                1.1
+            ], 
+            "description": "r2 coefficient of linear fit between measured and reference HU values", 
+            "display_level": 1, 
+            "display_name": "HU linearity fit HEAD", 
+            "units": ""
+        }, 
+        "maxdev": {
+            "constraint_minlowhighmax": [
+                -8, 
+                -7, 
+                7, 
+                8
+            ], 
+            "description": "max deviation from reference HU values for objects in phantom", 
+            "display_level": 2, 
+            "display_name": "HU Max Deviation HEAD", 
+            "units": "HU"
+        }, 
+        "roisd": {
+            "constraint_minlowhighmax": [
+                2.805, 
+                2.97, 
+                3.63, 
+                3.795
+            ], 
+            "description": "noise in ROI in center of phantom", 
+            "display_level": 2, 
+            "display_name": "Noise HEAD", 
+            "units": "HU"
+        }, 
+        "snr_hol": {
+            "constraint_minlowhighmax": [
+                308.0, 
+                327.25, 
+                442.75, 
+                462.0
+            ], 
+            "description": "(mean+1000) to noise ratio in ROI in center of phantom", 
+            "display_level": 1, 
+            "display_name": "SNR HEAD", 
+            "units": ""
+        }, 
+        "unif": {
+            "constraint_minlowhighmax": [
+                -4, 
+                -4, 
+                4, 
+                4
+            ], 
+            "description": "Non-uniformity of phantom", 
+            "display_level": 2, 
+            "display_name": "Non-uniformity HEAD", 
+            "units": "HU"
+        }
+    }
+}
