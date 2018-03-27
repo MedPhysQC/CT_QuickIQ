@@ -4,7 +4,7 @@
         "magic": "wad-qc-factory"
     },
     "module": {
-        "description": "CT PerformanceQuickIQ",
+        "description": "CT QuickIQ",
         "executable": "QCCT_wadwrapper.py",
         "name": "CT_QuickIQ",
         "code": "python",
