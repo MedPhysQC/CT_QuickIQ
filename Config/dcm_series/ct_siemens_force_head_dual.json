@@ -42,6 +42,16 @@
         }, 
         "qc_series": {
             "params": {
+                "bodyHU_aculon": "dummy", 
+                "bodyHU_teflon": "dummy", 
+                "bodyHU_water": "dummy", 
+                "headHU_air": "HU value of air for Head phantom", 
+                "headHU_shell": "HU value of shell for Head phantom", 
+                "headHU_water": "HU value of water for Head phantom", 
+                "headdiammm_in": "inner diameter of PVC shell of head phantom in mm", 
+                "headdiammm_out": "outer diameter of PVC shell of head phantom in mm", 
+                "scannername": "your identifier for this scanner", 
+                "use_anatomy": "must use this anatomy (head or body)", 
                 "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)", 
                 "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
             }
