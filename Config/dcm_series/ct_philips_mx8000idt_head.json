@@ -23,10 +23,22 @@
             }
         }
     }, 
+    "cfgformat": "20180910", 
     "comments": {
         "author": "Arnold Schilham, UMCU", 
-        "creator": "generate_config_json.py version 20180219", 
+        "creator": "generate_config_json.py version 20180912", 
         "description": "CT/PerformanceQuickIQ for Philips Mx8000IDT", 
         "version": "20160413"
+    }, 
+    "info": {
+        "acqdatetime": {
+            "params": {}
+        }, 
+        "header_series": {
+            "params": {}
+        }, 
+        "qc_series": {
+            "params": {}
+        }
     }
 }

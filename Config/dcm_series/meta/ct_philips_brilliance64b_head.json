@@ -1,9 +1,10 @@
 {
     "comments": {
         "author": "Arnold Schilham, UMCU", 
-        "creator": "generate_config_json.py version 20180219", 
+        "creator": "generate_config_json.py version 20180912", 
         "description": "CT/PerformanceQuickIQ for Philips Brilliance 64 leen"
     }, 
+    "metaformat": "20180910", 
     "results": {
         "AcquisitionDateTime": {
             "constraint_period": 14, 

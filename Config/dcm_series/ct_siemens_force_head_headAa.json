@@ -26,14 +26,25 @@
             }
         }
     }, 
+    "cfgformat": "20180910", 
     "comments": {
         "author": "Arnold Schilham, UMCU", 
-        "creator": "generate_config_json.py version 20180219", 
+        "creator": "generate_config_json.py version 20180912", 
         "description": "CT/PerformanceQuickIQ for Siemens SOMATOM Force", 
-        "params": {
-            "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)", 
-            "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
-        }, 
         "version": "20170621"
+    }, 
+    "info": {
+        "acqdatetime": {
+            "params": {}
+        }, 
+        "header_series": {
+            "params": {}
+        }, 
+        "qc_series": {
+            "params": {
+                "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)", 
+                "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
+            }
+        }
     }
 }
