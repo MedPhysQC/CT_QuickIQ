@@ -20,6 +20,7 @@
 #
 #
 # Changelog:
+#   20181017: fix double occurence of HU High Head
 #   20170622: added MeanHigh result, as this gives most deviations
 #   20170502: added radiusmm param for air roi location
 #   20170227: removed double headHU_pvc definition; error in override_settings (anatomy ignored)
@@ -31,7 +32,7 @@
 # ./QCCT_wadwrapper.py -c Config/ct_philips_umcu_series_mx8000idt.json -d TestSet/StudyMx8000IDT -r results_mx8000idt.json
 from __future__ import print_function
 
-__version__ = '20170622'
+__version__ = '20181017'
 __author__ = 'aschilham'
 
 import os
@@ -191,6 +192,18 @@ def qc_series(data, results, action):
         'unif_rois'
     ]
     skull_val = -2024 # low value, will need a higher
+    
+    # make sure skull_avg is used if valid, but preserve order of results
+    for elem in cs.__dict__:
+        if elem in includedlist:
+            try:
+                elemval =  cs.__dict__[elem]
+                if 'skull_avg' in elem: # skull_avg only defined for head
+                    skull_val  = elemval
+                    break
+            except:
+                print(logTag()+"error for", elem)
+
     for elem in cs.__dict__:
         if elem in includedlist:
             newkeys = []
@@ -202,7 +215,7 @@ def qc_series(data, results, action):
                     newvals.append(elemval[0])
                     newkeys.append('MeanAir')
                     newvals.append(elemval[3])
-                    if skull_val < -1024: # skull_avg only defined for head; if not head, then take teflon plug
+                    if skull_val <= -1024: # skull_avg only defined for head; if not head, then take teflon plug
                         newkeys.append('MeanHigh') 
                         newvals.append(max(elemval))
                         
