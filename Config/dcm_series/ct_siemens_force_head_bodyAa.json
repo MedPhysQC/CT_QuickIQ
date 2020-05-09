@@ -1,58 +1,58 @@
 {
     "actions": {
         "acqdatetime": {
-            "filters": {}, 
+            "filters": {},
             "params": {}
-        }, 
+        },
         "header_series": {
-            "filters": {}, 
+            "filters": {},
             "params": {}
-        }, 
+        },
         "qc_series": {
-            "filters": {}, 
+            "filters": {},
             "params": {
-                "bodyHU_aculon": 105.0, 
-                "bodyHU_teflon": 908.0, 
-                "bodyHU_water": 0, 
-                "headHU_air": -1000.0, 
-                "headHU_shell": 108.0, 
-                "headHU_water": 0.0, 
-                "headdiammm_in": 193.0, 
-                "headdiammm_out": 196.0, 
-                "scannername": "SOMATOM Force", 
-                "use_anatomy": "head", 
-                "use_bodyairdistmm": 93.0, 
+                "bodyHU_aculon": 105.0,
+                "bodyHU_teflon": 908.0,
+                "bodyHU_water": 0,
+                "headHU_air": -1000.0,
+                "headHU_shell": 108.0,
+                "headHU_water": 0.0,
+                "headdiammm_in": 193.0,
+                "headdiammm_out": 196.0,
+                "scannername": "SOMATOM Force",
+                "use_anatomy": "head",
+                "use_bodyairdistmm": 93.0,
                 "use_headairdistmm": 93.0
             }
         }
-    }, 
-    "cfgformat": "20180910", 
+    },
+    "cfgformat": "20180910",
     "comments": {
-        "author": "Arnold Schilham, UMCU", 
-        "creator": "generate_config_json.py version 20180912", 
-        "description": "CT/PerformanceQuickIQ for Siemens SOMATOM Force", 
+        "author": "Arnold Schilham, UMCU",
+        "creator": "generate_config_json.py version 20180912",
+        "description": "CT/PerformanceQuickIQ for Siemens SOMATOM Force",
         "version": "20170621"
-    }, 
+    },
     "info": {
         "acqdatetime": {
             "params": {}
-        }, 
+        },
         "header_series": {
             "params": {}
-        }, 
+        },
         "qc_series": {
             "params": {
-                "bodyHU_aculon": "dummy", 
-                "bodyHU_teflon": "dummy", 
-                "bodyHU_water": "dummy", 
-                "headHU_air": "HU value of air for Head phantom", 
-                "headHU_shell": "HU value of shell for Head phantom", 
-                "headHU_water": "HU value of water for Head phantom", 
-                "headdiammm_in": "inner diameter of PVC shell of head phantom in mm", 
-                "headdiammm_out": "outer diameter of PVC shell of head phantom in mm", 
-                "scannername": "your identifier for this scanner", 
-                "use_anatomy": "must use this anatomy (head or body)", 
-                "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)", 
+                "bodyHU_aculon": "dummy",
+                "bodyHU_teflon": "dummy",
+                "bodyHU_water": "dummy",
+                "headHU_air": "HU value of air for Head phantom",
+                "headHU_shell": "HU value of shell for Head phantom",
+                "headHU_water": "HU value of water for Head phantom",
+                "headdiammm_in": "inner diameter of PVC shell of head phantom in mm",
+                "headdiammm_out": "outer diameter of PVC shell of head phantom in mm",
+                "scannername": "your identifier for this scanner",
+                "use_anatomy": "must use this anatomy (head or body)",
+                "use_bodyairdistmm": "distance in mm to ROI for Air for Body (def. 115.75)",
                 "use_headairdistmm": "distance in mm to ROI for Air for Head (def. 79.75)"
             }
         }

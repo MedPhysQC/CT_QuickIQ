@@ -11,12 +11,12 @@
 # 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from __future__ import print_function
-
 """
 Warning: THIS MODULE EXPECTS PYQTGRAPH DATA: X AND Y ARE TRANSPOSED!
 
 Changelog:
+    20200508: dropping support for python2; dropping support for WAD-QC 1; toimage no longer exists in scipy.misc
+    20200225: prevent accessing pixels outside image
     20171116: fix scipy version 1.0
     20170622: more extreme avg_skull value to allow reporting for body
     20170502: added radiusmm param for air roi location; added thumbnail with ROIs
@@ -32,7 +32,7 @@ Changelog:
     20140409: Initial split of gui/lib for pywad
 
 """
-__version__ = '20171116'
+__version__ = '20200508'
 __author__ = 'aschilham'
 
 import copy
@@ -42,18 +42,14 @@ try:
 except ImportError:
     from . import QCCT_constants as lit
 
-# First try if we are running wad1.0, since in wad2 libs are installed systemwide
+LOCALIMPORT = False
 try: 
     # try local folder
     import wadwrapper_lib
+    LOCALIMPORT = True
 except ImportError:
-    # try pyWADlib from plugin.py.zip
-    try: 
-        from pyWADLib import wadwrapper_lib
-
-    except ImportError: 
-        # wad1.0 solutions failed, try wad2.0 from system package wad_qc
-        from wad_qc.modulelibs import wadwrapper_lib
+    # try wad2.0 from system package wad_qc
+    from wad_qc.modulelibs import wadwrapper_lib
 
 import numpy as np
 from scipy import stats
@@ -61,7 +57,18 @@ import scipy.ndimage
 import matplotlib.pyplot as plt
 from PIL import Image # image from pillow is needed
 from PIL import ImageDraw # imagedraw from pillow is needed, not pil
-import scipy.misc
+try:
+    from scipy.misc import toimage
+except (ImportError, AttributeError) as e:
+    try:
+        if LOCALIMPORT:
+            from wadwrapper_lib import toimage as toimage
+        else:
+            from wad_qc.modulelibs.wadwrapper_lib import toimage as toimage
+    except (ImportError, AttributeError) as e:
+        msg = "Function 'toimage' cannot be found. Either downgrade scipy or upgrade WAD-QC."
+        raise AttributeError("{}: {}".format(msg, e))
+
 # sanity check: we need at least scipy 0.10.1 to avoid problems mixing PIL and Pillow
 scipy_version = [int(v) for v in scipy.__version__ .split('.')]
 if scipy_version[0] == 0:
@@ -260,6 +267,11 @@ class CT_QC:
         roiy.append(roiy[0]-diagstep)  #
         roiy.append(cs.shiftxypx[1]+midx-int(sddim/2)) # center
 
+        if cs.dicomMode == wadwrapper_lib.stMode2D:
+            wid, hei = np.shape(cs.pixeldataIn)
+        else:
+            wid, hei = np.shape(cs.pixeldataIn[cs.unif_slice])
+            
         # first avg
         cs.roiavg = []
         for kk in range(0,len(roix)-1):
@@ -268,6 +280,10 @@ class CT_QC:
             for ky in range(0,roidim):
                 for kx in range(0,roidim):
                     if( (kx-roirad)**2+(ky-roirad)**2<roirad**2 ):
+                        if roix[kk]+kx<0 or roix[kk]+kx>=wid:
+                            continue 
+                        if roiy[kk]+ky<0 or roiy[kk]+ky>=hei:
+                            continue 
                         if cs.dicomMode == wadwrapper_lib.stMode2D:
                             sumv += cs.pixeldataIn[roix[kk]+kx,roiy[kk]+ky]
                         #    self.pixeldataIn[roix[kk]+kx,roiy[kk]+ky] = -1000
@@ -292,6 +308,11 @@ class CT_QC:
         for ky in range(0,sddim):
             for kx in range(0,sddim):
                 if( (kx-sdrad)**2+(ky-sdrad)**2<sdrad**2 ):
+                    if roix[-1]+kx<0 or roix[-1]+kx>=wid:
+                        continue 
+                    if roiy[-1]+ky<0 or roiy[-1]+ky>=hei:
+                        continue 
+                    
                     if cs.dicomMode == wadwrapper_lib.stMode2D:
                         val = cs.pixeldataIn[roix[-1]+kx,roiy[-1]+ky]
                     else:
@@ -328,6 +349,10 @@ class CT_QC:
             for kx in range(0,outerroidim):
                 rrr2 = (kx-outerroirad)**2+(ky-outerroirad)**2
                 if( rrr2>innerroirad**2 and rrr2<outerroirad**2):
+                    if roix[0]+kx<0 or roix[0]+kx>=wid:
+                        continue 
+                    if roiy[0]+ky<0 or roiy[0]+ky>=hei:
+                        continue 
                     if cs.dicomMode == wadwrapper_lib.stMode2D:
                         sumv += cs.pixeldataIn[roix[0]+kx,roiy[0]+ky]
                     else:
@@ -468,6 +493,11 @@ class CT_QC:
         roix.append(int(cs.shiftxypx[0]+midx-int(roidim[6]/2))) # center
         roiy.append(int(cs.shiftxypx[1]+midx-int(roidim[6]/2))) # center
 
+        if cs.dicomMode == wadwrapper_lib.stMode2D:
+            wid, hei = np.shape(cs.pixeldataIn)
+        else:
+            wid, hei = np.shape(cs.pixeldataIn[cs.unif_slice])
+
         # first avg
         cs.roiavg = []
         for kk in range(0,len(roix)-1):
@@ -478,6 +508,11 @@ class CT_QC:
             for ky in range(0,roidim[kk]):
                 for kx in range(0,roidim[kk]):
                     if( (kx-roirad)**2+(ky-roirad)**2<roirad**2 ):
+                        if roix[kk]+kx<0 or roix[kk]+kx>=wid:
+                            continue 
+                        if roiy[kk]+ky<0 or roiy[kk]+ky>=hei:
+                            continue 
+                        
                         if cs.dicomMode == wadwrapper_lib.stMode2D:
                             sumv += cs.pixeldataIn[roix[kk]+kx,roiy[kk]+ky]
                         #    self.pixeldataIn[roix[kk]+kx,roiy[kk]+ky] = -1000
@@ -502,6 +537,11 @@ class CT_QC:
         for ky in range(0,roidim[-1]):
             for kx in range(0,roidim[-1]):
                 if( (kx-sdrad)**2+(ky-sdrad)**2<sdrad**2 ):
+                    if roix[-1]+kx<0 or roix[-1]+kx>=wid:
+                        continue 
+                    if roiy[-1]+ky<0 or roiy[-1]+ky>=hei:
+                        continue 
+                    
                     if cs.dicomMode == wadwrapper_lib.stMode2D:
                         val = cs.pixeldataIn[roix[-1]+kx,roiy[-1]+ky]
                     else:
@@ -761,9 +801,9 @@ class CT_QC:
         # convert to 8-bit palette mapped image with lowest palette value used = 1
         # first the base image
         if cs.dicomMode == wadwrapper_lib.stMode2D:
-            im = scipy.misc.toimage(cs.pixeldataIn.transpose(), low=1, pal=pal) # MODULE EXPECTS PYQTGRAPH DATA: X AND Y ARE TRANSPOSED!
+            im = toimage(cs.pixeldataIn.transpose(), low=1, pal=pal) # MODULE EXPECTS PYQTGRAPH DATA: X AND Y ARE TRANSPOSED!
         else:
-            im = scipy.misc.toimage((cs.pixeldataIn[cs.unif_slice]).transpose(),low=1,pal=pal) # MODULE EXPECTS PYQTGRAPH DATA: X AND Y ARE TRANSPOSED!
+            im = toimage((cs.pixeldataIn[cs.unif_slice]).transpose(),low=1,pal=pal) # MODULE EXPECTS PYQTGRAPH DATA: X AND Y ARE TRANSPOSED!
 
         # add all rois
         for r in cs.unif_rois: # uniformity

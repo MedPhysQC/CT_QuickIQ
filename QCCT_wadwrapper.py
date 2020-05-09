@@ -20,6 +20,8 @@
 # 
 #
 # Changelog:
+#   20200508: dropping support for python2; dropping support for WAD-QC 1; toimage no longer exists in scipy.misc
+#   20200225: prevent accessing pixels outside image
 #   20190426: Fix for matplotlib>3
 #   20181017: fix double occurence of HU High Head
 #   20170622: added MeanHigh result, as this gives most deviations
@@ -31,9 +33,8 @@
 #   20160622: removed adding limits (now part of analyzer)
 #   20160620: removed idname; force separate config for head and for body; remove quantity and units
 # ./QCCT_wadwrapper.py -c Config/ct_philips_umcu_series_mx8000idt.json -d TestSet/StudyMx8000IDT -r results_mx8000idt.json
-from __future__ import print_function
 
-__version__ = '20190426'
+__version__ = '20200508'
 __author__ = 'aschilham'
 
 import os
@@ -60,7 +61,6 @@ except ImportError:
     import dicom
 import QCCT_lib
 import QCCT_constants as lit
-import scipy.misc
 
 def logTag():
     return "[QCCT_wadwrapper] "
