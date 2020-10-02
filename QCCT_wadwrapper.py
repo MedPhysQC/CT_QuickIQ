@@ -20,6 +20,7 @@
 # 
 #
 # Changelog:
+#   20201002: made some dicom info floats instead of strings
 #   20200508: dropping support for python2; dropping support for WAD-QC 1; toimage no longer exists in scipy.misc
 #   20200225: prevent accessing pixels outside image
 #   20190426: Fix for matplotlib>3
@@ -34,7 +35,7 @@
 #   20160620: removed idname; force separate config for head and for body; remove quantity and units
 # ./QCCT_wadwrapper.py -c Config/ct_philips_umcu_series_mx8000idt.json -d TestSet/StudyMx8000IDT -r results_mx8000idt.json
 
-__version__ = '20200508'
+__version__ = '20201002'
 __author__ = 'aschilham'
 
 import os
@@ -297,7 +298,6 @@ def header_series(data, results, action):
     if(error == True or cs.anatomy == lit.stUnknown):
         raise ValueError("{} ERROR! Cannot determine Anatomy".format(logTag))
 
-    result_dict = {}
     # only uncomment if same config used for all scanners: idname += "_"+cs.guessScanner.name
 
     ## 1. Run tests
@@ -309,9 +309,34 @@ def header_series(data, results, action):
     results.addString(varname, str(qcctlib.qcversion))
     varname = 'Anatomy'
     results.addString(varname, str(cs.anatomy))
+    
+    floatlist = [
+        "Slice Thickness",
+        "kVp",
+        "Spacing Between Slices", # Philips
+        "Data Collection Diameter",
+        "Reconstruction Diameter",
+        "Gantry/Detector Tilt",
+        "Table Height",
+        "Scan Arc", # noPhilips noSiemens
+        "Exposure Time ms", #Siemens
+        "X-ray Tube Current",
+        "Exposure mAs", # mA*tRot/pitch; tRot=exposure time
+        "CTDIvol",
+        "Image Number",
+        "Slice Location",
+        "Rotation Time", # Philips
+    ]    
+
     for di in dicominfo:
         varname = di[0]
-        results.addString(varname, str(di[1])[:min(len(str(di[1])),100)])
+        if varname in floatlist:
+            try:
+                results.addFloat(varname, float(di[1]))
+            except ValueError:
+                results.addString(varname, str(di[1])[:min(len(str(di[1])),100)])
+        else:
+            results.addString(varname, str(di[1])[:min(len(str(di[1])),100)])
 
 if __name__ == "__main__":
     data, results, config = pyWADinput()
