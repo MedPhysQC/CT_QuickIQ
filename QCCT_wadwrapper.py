@@ -128,8 +128,14 @@ def override_settings(cs, params):
     except:
         pass
 
+    # verbosity
+    try:
+        cs.verbose = params['verbose']
+    except:
+        pass
+
 ##### Real functions
-def qc_series(data, results, action):
+def qc_series(data, results, action, override={}):
     """
     QCCT_UMCU Checks: extension of Philips QuickIQ (also for older scanners without that option), for both Head and Body if provided
       Uniformity
@@ -146,6 +152,10 @@ def qc_series(data, results, action):
         params = action['params']
     except KeyError:
         params = {}
+
+    # overrides from test scripts
+    for k,v in override.items():
+        params[k] = v
 
     dcmInfile, pixeldataIn, dicomMode = wadwrapper_lib.prepareInput(data.series_filelist[0], headers_only=False, logTag=logTag())
     qclib = QCCT_lib.CT_QC()
@@ -250,7 +260,8 @@ def qc_series(data, results, action):
                 results.addFloat(varname, val)
 
     ## Build thumbnail
-    filename = 'test'+'.jpg' # Use jpg if a thumbnail is desired
+    prefix = results._out_path.split(".json")[0]
+    filename = '{}.jpg'.format(prefix) # Use jpg if a thumbnail is desired
     qclib.saveAnnotatedImage(cs, filename)
     varname = 'CTslice'
     results.addObject(varname, filename) 
@@ -338,7 +349,10 @@ def header_series(data, results, action):
         else:
             results.addString(varname, str(di[1])[:min(len(str(di[1])),100)])
 
-if __name__ == "__main__":
+def main(override={}):
+    """
+    override from testting scripts
+    """
     data, results, config = pyWADinput()
 
     # read runtime parameters for module
@@ -350,9 +364,12 @@ if __name__ == "__main__":
             header_series(data, results, action)
         
         elif name == 'qc_series':
-            qc_series(data, results, action)
+            qc_series(data, results, action, override)
 
     #results.limits["minlowhighmax"]["mydynamicresult"] = [1,2,3,4]
 
     results.write()
     
+if __name__ == "__main__":
+    # main in separate function to be called by ct_tester
+    main()
